@@ -192,6 +192,7 @@ public class SelectProjectWP extends WizardPage {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				super.widgetSelected(e);
+				uploadPB.setVisible(true);
 				
 				//Calls StartUpload Service
 				sharedValues[1] = getMPTTag(sharedValues[0]);
@@ -215,46 +216,54 @@ public class SelectProjectWP extends WizardPage {
 							.filter(Files::isRegularFile)
 							.filter(f -> f.getFileName().toString().endsWith(".java"));
 
-					paths.forEach(p -> {
-						try {
-							String response = null;
-							byte[] b = Files.readAllBytes(p);
-							bUploaded = bUploaded + (long) b.length;
-							
-							//System.out.println(p.getFileName());
-							if (b.length > 4000) {
-								List<byte[]> listPartedFile = SafevalUtil.getPartedFile(b, 4000);
-								
-								int pos = 0;
-								for( byte[] part : listPartedFile ) {
-									response = uploadService(Base64.getEncoder().encodeToString(part), pos);
-									pos++;
-									//Calls Analysis Service
+					new Thread() {
+						public void run() {
+							paths.forEach(p -> {
+								try {
+									String response = null;
+									byte[] b = Files.readAllBytes(p);
+									bUploaded = bUploaded + (long) b.length;
+
+									// System.out.println(p.getFileName());
+									if (b.length > 4000) {
+										List<byte[]> listPartedFile = SafevalUtil.getPartedFile(b, 4000);
+
+										int pos = 0;
+										for (byte[] part : listPartedFile) {
+											response = uploadService(Base64.getEncoder().encodeToString(part), pos);
+											pos++;
+											// Calls Analysis Service
+										}
+									} else {
+										response = uploadService(Base64.getEncoder().encodeToString(b), 0);
+										// Calls Analysis Service
+									}
+
+									if (response.equalsIgnoreCase("ok")) {
+										int perc = (int) (bUploaded * 100.0 / bLength + 0.5);
+										container.getDisplay().asyncExec(new Runnable() {
+											@Override
+											public void run() {
+												//System.out.println("setanto perc=" + perc);
+												uploadPB.setSelection(perc);
+											}
+										});
+									}
+								} catch (IOException e1) {
+									e1.printStackTrace();
 								}
-							}else {
-								response = uploadService(Base64.getEncoder().encodeToString(b), 0);
-								//Calls Analysis Service
-							}
-							
-							if( response.equalsIgnoreCase("ok") ) {
-								int perc = (int)(bUploaded * 100.0 / bLength + 0.5);
-								//uploadPB.setSelection(perc); //Percentage of progress
-								uploadPB.setVisible(true);					
-								System.out.println("Uploading... - " + perc + "%");
-								//System.out.println("");
-							}
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						}				
-					});
+							});
+							System.out.println("Finalizando...");
+						}
+					}.start();
+					
+					
 				} catch (IOException e2) {
 					e2.printStackTrace();
 				}
 			}
 		});
-		
 		this.setControl(container);
-		this.setPageComplete(false);
 	};
 
 	/**
@@ -305,6 +314,10 @@ public class SelectProjectWP extends WizardPage {
 			return response;
 		}
 		return null;
+	}
+	
+	private void showFinishUpload() {
+		
 	}
 	
 	private void enableStartUpload() {
