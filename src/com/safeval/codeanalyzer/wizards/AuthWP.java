@@ -6,6 +6,7 @@ import java.net.URL;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -14,10 +15,8 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
@@ -32,15 +31,21 @@ import com.safeval.codeanalyzer.ws.login.LoginServiceSoap;
  *
  */
 public class AuthWP extends WizardPage {
-	
+
 	private static String WS_URL = "https://isasecdev.com";
 	
 	private Composite container;
+	private String[] sharedValues;
 	
-	public AuthWP() {
+	/**
+	 * @param sharedValues[]
+	 */
+	public AuthWP(String[] sharedValues) {
 		super("Autenticação");
 		setTitle("Autenticação");
 		setDescription("Forneça as credencias para autenticação");
+		
+		this.sharedValues = sharedValues;
 	}
 
 	@Override
@@ -69,29 +74,6 @@ public class AuthWP extends WizardPage {
 		Text passwordText = new Text(this.container, SWT.BORDER);
 		passwordText.setText(new String());
 		
-		//Groups
-		Group messagesGrup = new Group(this.container, SWT.NONE);
-		RowLayout messageRowLayout = new RowLayout(SWT.HORIZONTAL);
-		messageRowLayout.center = true;
-		messagesGrup.setLayout(messageRowLayout);	    
-		
-		//Messages
-		Label successLoginLB = new Label(messagesGrup, SWT.CENTER);
-		Font successLoginFont = new Font(successLoginLB.getDisplay(), new FontData("Mono", 11, SWT.BOLD));
-		successLoginLB.setFont(successLoginFont);
-		successLoginLB.setText("Usuário autenticado!!!");
-		successLoginLB.setForeground(parent.getDisplay().getSystemColor(SWT.COLOR_DARK_GREEN));
-		successLoginLB.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
-		successLoginLB.setVisible(false);
-		
-		Label failLoginLB = new Label(messagesGrup, SWT.CENTER);
-		Font failLoginFont = new Font(failLoginLB.getDisplay(), new FontData("Mono", 11, SWT.BOLD));
-		failLoginLB.setFont(failLoginFont);
-		failLoginLB.setText("Erro ao autenticar");
-		failLoginLB.setForeground(parent.getDisplay().getSystemColor(SWT.COLOR_DARK_RED));
-		failLoginLB.setBackground(parent.getDisplay().getSystemColor(SWT.COLOR_WHITE));
-		failLoginLB.setVisible(false);
-		 
 		//Login Button
 		Button loginButton = new Button(this.container, SWT.PUSH);
 		Font loginBtnFont = new Font(loginButton.getDisplay(), new FontData("Mono", 10, SWT.BOLD));
@@ -150,17 +132,20 @@ public class AuthWP extends WizardPage {
 	                    int message = bp.LoadInt();
 	                    String token = bp.LoadString();
 	                    
-	                    if(token != null) {
-	                    	System.out.println("Usuário atenticado com sucesso :: token :: " + token);
-	                    	setPageComplete(true);
-	                    	successLoginLB.setVisible(true);
-	                    	parent.getShell().layout(false);
-
+	                    if(token != null && token != "" && token.length() > 1) {
 	                    	// TODO call next page to select project, but save the Token
+	                    	System.out.println("Usuário {" + login + "} atenticado com sucesso");
+	                    	setMessage("Usuário autenticado com sucesso", IMessageProvider.INFORMATION);
+	                    	
+	                    	sharedValues[0] = token; 
+	                    	setPageComplete(true);
+	                    }else {
+	                    	System.out.println("Erro :: code {" + code + "}, message {" + message + "}");
+	                    	setErrorMessage("Erro ao obter Token");
 	                    }
 			        }else {
-			        	failLoginLB.setVisible(true);
-                    	parent.getShell().layout(false);
+			        	setErrorMessage("Usuário / Senha incorreto(s)");
+                    	//parent.getShell().layout(false);
 			        }
 					
 				} catch (MalformedURLException e1) {
