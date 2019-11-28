@@ -238,20 +238,8 @@ public class SelectProjectWP extends WizardPage {
 							
 							if( response.equalsIgnoreCase("ok") ) {
 								int perc = (int)(bUploaded * 100.0 / bLength + 0.5);
-								
 								//uploadPB.setSelection(perc); //Percentage of progress
-								uploadPB.setVisible(true);
-								container.getDisplay().asyncExec(new Runnable() {
-									@Override
-									public void run() {
-										for( int i=0; i<100; i++ ) {
-											uploadPB.setSelection(i);
-										}
-									}
-								});	
-								
-								
-								
+								uploadPB.setVisible(true);					
 								System.out.println("Uploading... - " + perc + "%");
 								//System.out.println("");
 							}
