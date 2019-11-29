@@ -18,6 +18,7 @@ public class CodeAnalyzerWizard extends Wizard {
 	//Pages
 	protected AuthWP authWizardPage;
 	protected SelectProjectWP selectProjectWP;
+	protected AnalyseWP analyseWP;
 	
 	public CodeAnalyzerWizard() {
 		super();
@@ -26,14 +27,16 @@ public class CodeAnalyzerWizard extends Wizard {
 		this.sharedValues = new String[3];
 		this.authWizardPage = new AuthWP(sharedValues);
 		this.selectProjectWP = new SelectProjectWP(sharedValues);
+		this.analyseWP = new AnalyseWP(sharedValues);
 		
 		this.addPage(this.authWizardPage);
 		this.addPage(this.selectProjectWP);
+		this.addPage(this.analyseWP);
 	}
 
 	@Override
 	public boolean performFinish() {
-		System.out.println("Finalizando wizard...");
+		System.out.println("Finalizando análise...");
 		return false;
 	}
 

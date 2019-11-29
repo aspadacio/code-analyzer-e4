@@ -44,7 +44,6 @@ public class AuthWP extends WizardPage {
 		super("Autenticação");
 		setTitle("Autenticação");
 		setDescription("Forneça as credencias para autenticação");
-		
 		this.sharedValues = sharedValues;
 	}
 
@@ -53,7 +52,7 @@ public class AuthWP extends WizardPage {
 		GridLayout layout = new GridLayout(1, false);
 		layout.marginWidth = 120;
 		
-		this.container = new Composite(parent, SWT.BORDER);
+		this.container = new Composite(parent, SWT.NONE);
 		this.container.setLayout(layout);
 		
 		//Username
@@ -141,7 +140,7 @@ public class AuthWP extends WizardPage {
 	                    	setPageComplete(true);
 	                    }else {
 	                    	System.out.println("Erro :: code {" + code + "}, message {" + message + "}");
-	                    	setErrorMessage("Erro ao obter Token");
+	                    	setMessage("Erro ao obter Token", IMessageProvider.ERROR);
 	                    }
 			        }else {
 			        	setErrorMessage("Usuário / Senha incorreto(s)");

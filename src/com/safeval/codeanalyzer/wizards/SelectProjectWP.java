@@ -16,6 +16,7 @@ import javax.xml.ws.Service;
 import org.eclipse.core.internal.resources.Project;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.resource.LocalResourceManager;
 import org.eclipse.jface.resource.ResourceManager;
@@ -196,13 +197,13 @@ public class SelectProjectWP extends WizardPage {
 				
 				//Calls StartUpload Service
 				sharedValues[1] = getMPTTag(sharedValues[0]);
-				setMessage("Canal para transações aberto", IMessageProvider.INFORMATION);; 
+				setMessage("Canal para transações aberto", IMessageProvider.INFORMATION);
             	
 				/**
 				 * 1. Get each file as Byte Array divided by N parts of 4000 bytes
 				 * 2. Calls Upload Service / Update ProgressBar for each file
 				 */
-				String path = "D:/mine/private-projects/brinquedoteca";
+				String path = "D:/Java/Eclipse-Workspaces/wrokspace-commiters/testes";
 
 				bUploaded = 0;
 				try {
@@ -224,19 +225,15 @@ public class SelectProjectWP extends WizardPage {
 									byte[] b = Files.readAllBytes(p);
 									bUploaded = bUploaded + (long) b.length;
 
-									// System.out.println(p.getFileName());
 									if (b.length > 4000) {
 										List<byte[]> listPartedFile = SafevalUtil.getPartedFile(b, 4000);
-
 										int pos = 0;
 										for (byte[] part : listPartedFile) {
 											response = uploadService(Base64.getEncoder().encodeToString(part), pos);
 											pos++;
-											// Calls Analysis Service
 										}
 									} else {
 										response = uploadService(Base64.getEncoder().encodeToString(b), 0);
-										// Calls Analysis Service
 									}
 
 									if (response.equalsIgnoreCase("ok")) {
@@ -246,14 +243,28 @@ public class SelectProjectWP extends WizardPage {
 											public void run() {
 												//System.out.println("setanto perc=" + perc);
 												uploadPB.setSelection(perc);
+												if( perc > 2 ) {
+													setMessage("Subindo arquivos para o servidor... " + perc + "%", IMessageProvider.INFORMATION);
+												}
 											}
 										});
+									}else {
+										System.out.println("Deu erro no momento de subir o arquivo :: " + p.getFileName());
 									}
 								} catch (IOException e1) {
 									e1.printStackTrace();
 								}
 							});
-							System.out.println("Finalizando...");
+							
+							container.getDisplay().syncExec(new Runnable() {
+								@Override
+								public void run() {
+									startUploadBtn.setEnabled(false);
+									setPageComplete(true);
+									setMessage("Upload dos arquivos finalizado", IMessageProvider.INFORMATION);
+									showFinishUpload();
+								}
+							});
 						}
 					}.start();
 					
@@ -317,7 +328,7 @@ public class SelectProjectWP extends WizardPage {
 	}
 	
 	private void showFinishUpload() {
-		
+		MessageDialog.openConfirm(container.getShell(), "Upload Project", "O projeto foi enviado para o servidor. \nProssiga para a última etapa para realizar a análise.");
 	}
 	
 	private void enableStartUpload() {
