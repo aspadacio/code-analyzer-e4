@@ -164,7 +164,7 @@ public class SelectProjectWP extends WizardPage {
 				if( dialog.getResult() != null ) {
 					Project selected = (Project) dialog.getResult()[0];
 					directoryText.setText("${workspace_loc:" + selected.getFullPath().toString() + "}");
-					projectSelected = selected.getFullPath().toString();
+					projectSelected = selected.getLocation().toString();
 					enableStartUpload();
 				}
 			}
@@ -203,7 +203,7 @@ public class SelectProjectWP extends WizardPage {
 				 * 1. Get each file as Byte Array divided by N parts of 4000 bytes
 				 * 2. Calls Upload Service / Update ProgressBar for each file
 				 */
-				String path = "D:/Java/Eclipse-Workspaces/wrokspace-commiters/testes";
+				String path = projectSelected;
 
 				bUploaded = 0;
 				try {
@@ -266,9 +266,7 @@ public class SelectProjectWP extends WizardPage {
 								}
 							});
 						}
-					}.start();
-					
-					
+					}.start();					
 				} catch (IOException e2) {
 					e2.printStackTrace();
 				}
