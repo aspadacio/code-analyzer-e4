@@ -37,6 +37,7 @@ public class CodeAnalyzerWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		System.out.println("Finalizando análise...");
+		
 		return false;
 	}
 

@@ -58,5 +58,87 @@
          </toolbar>
       </menuContribution>
    </extension>
-
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="com.safeval.codeanalyzer"
+            name="SafeVal">
+      </category>
+      <view
+            category="com.safeval.codeanalyzer"
+            class="com.safeval.codeanalyzer.views.ExploreFilesVulnerabilitiesView"
+            icon="icons/sample.png"
+            id="com.safeval.codeanalyzer.views.ExploreFilesVulnerabilitiesView"
+            inject="true"
+            name="Files Vulnerabilities View">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               id="com.safeval.codeanalyzer.views.ExploreFilesVulnerabilitiesView"
+               ratio="0.5"
+               relationship="right"
+               relative="org.eclipse.ui.views.ProblemView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+   
+	<extension 
+		point="org.eclipse.core.resources.markers" 
+		id="com.safeval.codeanalyzer.util.safevalMarker" 
+		name="SafevalMarker">
+	    <super type="org.eclipse.core.resources.problemmarker"/>
+	    <super type="org.eclipse.core.resources.textmarker"/>
+	    <persistent value="true"/>
+	</extension>
+	
+	<extension
+	    id="com.safeval.codeanalyzer.marker.slicemarker"
+	    name="SafeVal Text Highlight"
+	    point="org.eclipse.core.resources.markers">
+	  <super type="org.eclipse.core.resources.textmarker" />
+	  <super type="org.eclipse.core.resources.problemmarker" />
+	</extension>
+	
+	<!-- My Own Annotation Type -->
+	<extension
+       point="org.eclipse.ui.editors.annotationTypes">
+	   <type
+	      name="com.safeval.codeanalyzer.marker.slicemarker"
+	      markerType="com.safeval.codeanalyzer.marker.slicemarker">
+	   </type>
+	</extension>
+	
+	<extension
+         point="org.eclipse.ui.editors.markerAnnotationSpecification">
+      <specification
+            annotationType="com.safeval.codeanalyzer.marker.slicemarker"
+            label="SafeVal Text Highlightr"
+            icon="$nl$/icons/searchm_obj.png"
+            colorPreferenceKey="com.safeval.codeanalyzer.marker.slice.color"
+            colorPreferenceValue="192,255,192"
+            contributesToHeader="false"
+            highlightPreferenceKey="com.safeval.codeanalyzer.marker.slice.highlight"
+            highlightPreferenceValue="true"
+            includeOnPreferencePage="true"
+            overviewRulerPreferenceKey="com.safeval.codeanalyzer.marker.slice.overview"
+            overviewRulerPreferenceValue="true"
+            presentationLayer="0"
+            textPreferenceKey="com.safeval.codeanalyzer.marker.slice.text"
+            textPreferenceValue="true"
+            textStylePreferenceValue="BOX"
+            verticalRulerPreferenceKey="com.safeval.codeanalyzer.marker.slice.ruler"
+            verticalRulerPreferenceValue="true">
+      </specification>
+   </extension>
+	
 </plugin>
