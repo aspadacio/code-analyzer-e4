@@ -130,7 +130,7 @@
          point="org.eclipse.ui.editors.markerAnnotationSpecification">
       <specification
             annotationType="com.safeval.codeanalyzer.marker.slicemarker"
-            label="SafeVal Text Highlight"
+            label="SafeVal - Vulnerabilidade"
             icon="$nl$/icons/searchm_obj.png"
             colorPreferenceKey="com.safeval.codeanalyzer.marker.slice.color"
             colorPreferenceValue="255, 128, 128"

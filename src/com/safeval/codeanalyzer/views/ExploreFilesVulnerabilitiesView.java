@@ -365,9 +365,7 @@ public class ExploreFilesVulnerabilitiesView extends ViewPart {
 									
 									IMarker marker = res.createMarker("com.safeval.codeanalyzer.marker.slicemarker");
 									marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
-									marker.setAttribute(IMarker.MESSAGE, "Comentário da Vulnerabilidade ...");
-									//marker.setAttribute(IMarker.LINE_NUMBER, (14));
-									
+									marker.setAttribute(IMarker.MESSAGE, "Comentário da Vulnerabilidade ...");									
 									marker.setAttribute(IMarker.CHAR_START, lineOffSet);
 									marker.setAttribute(IMarker.CHAR_END, (lineOffSet + lineLenght));
 									
