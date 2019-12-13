@@ -10,8 +10,10 @@ import org.eclipse.jface.wizard.Wizard;
 public class CodeAnalyzerWizard extends Wizard {
 	
 	/*
-	 * 1. Token
-	 * 2. MPT Tag 
+	 * 0. Token
+	 * 1. MPT Tag
+	 * 2. Directory / File / SVN / GIT name (Project Name)
+	 * 3. File(s) total bytes length 
 	 **/
 	String sharedValues[];
 	
@@ -24,7 +26,7 @@ public class CodeAnalyzerWizard extends Wizard {
 		super();
 		this.setWindowTitle("Safeval - Code Analyzer");
 		
-		this.sharedValues = new String[3];
+		this.sharedValues = new String[4];
 		this.authWizardPage = new AuthWP(sharedValues);
 		this.selectProjectWP = new SelectProjectWP(sharedValues);
 		this.analyseWP = new AnalyseWP(sharedValues);
@@ -37,7 +39,6 @@ public class CodeAnalyzerWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		System.out.println("Finalizando análise...");
-		
 		return false;
 	}
 

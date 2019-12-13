@@ -3,12 +3,11 @@ package com.safeval.codeanalyzer.handlers;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import com.safeval.codeanalyzer.views.ExploreFilesVulnerabilitiesView;
+import com.safeval.codeanalyzer.wizards.CodeAnalyzerWizard;
 
 /**
  * @author Spadacio
@@ -25,18 +24,16 @@ public class CodeAnalyzerHandler extends AbstractHandler {
 		 * "Analizar Código Fonte");
 		 */
 		
-		/*
-		 * WizardDialog authWizardDialog = new WizardDialog(window.getShell(), new
-		 * CodeAnalyzerWizard()); authWizardDialog.open();
-		 */
+		 WizardDialog authWizardDialog = new WizardDialog(window.getShell(), new
+		 CodeAnalyzerWizard()); authWizardDialog.open(); 
 		
-		try {
-			ExploreFilesVulnerabilitiesView filesVulView = (ExploreFilesVulnerabilitiesView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-					.showView("com.safeval.codeanalyzer.views.ExploreFilesVulnerabilitiesView");
-			filesVulView.setFilesVulnerabilities("D:/Java/Eclipse-Workspaces/wrokspace-commiters/testes/src/testes/Teste.java", 13);
-		} catch (PartInitException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			ExploreFilesVulnerabilitiesView filesVulView = (ExploreFilesVulnerabilitiesView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+//					.showView("com.safeval.codeanalyzer.views.ExploreFilesVulnerabilitiesView");
+//			filesVulView.setFilesVulnerabilities("D:/Java/Eclipse-Workspaces/wrokspace-commiters/testes/src/testes/Teste.java", 13);
+//		} catch (PartInitException e) {
+//			e.printStackTrace();
+//		}
 		
 		return null;
 	}

@@ -103,10 +103,10 @@ public class AuthWP extends WizardPage {
 				//call login SOAP services and do authentication
 				try {
 					URL wsdlUrlL = new URL(WS_URL + "/Login/LoginService.asmx?WSDL");
-					QName qnameL = new QName("http://isasecdev.com/", "LoginService");
+					QName qnameL = new QName("http://ws.isasecdev.com/", "LoginService");
 					
 			        Service serviceL = Service.create(wsdlUrlL, qnameL);
-			        LoginServiceSoap soapL = serviceL.getPort(new QName("http://isasecdev.com/", "LoginServiceSoap"),LoginServiceSoap.class);
+			        LoginServiceSoap soapL = serviceL.getPort(new QName("http://ws.isasecdev.com/", "LoginServiceSoap"),LoginServiceSoap.class);
 
 			        String login = userNameText.getText();
 			        String password = passwordText.getText();

@@ -16,7 +16,7 @@ import javax.xml.ws.ResponseWrapper;
  * Generated source version: 2.2
  * 
  */
-@WebService(name = "LoginServiceSoap", targetNamespace = "http://isasecdev.com/")
+@WebService(name = "LoginServiceSoap", targetNamespace = "http://ws.isasecdev.com/")
 @XmlSeeAlso({
     ObjectFactory.class
 })
@@ -32,18 +32,18 @@ public interface LoginServiceSoap {
      * @return
      *     returns java.lang.String
      */
-    @WebMethod(operationName = "Login", action = "http://isasecdev.com/Login")
-    @WebResult(name = "LoginResult", targetNamespace = "http://isasecdev.com/")
-    @RequestWrapper(localName = "Login", targetNamespace = "http://isasecdev.com/", className = "com.safeval.Login")
-    @ResponseWrapper(localName = "LoginResponse", targetNamespace = "http://isasecdev.com/", className = "com.safeval.LoginResponse")
+    @WebMethod(operationName = "Login", action = "http://ws.isasecdev.com/Login")
+    @WebResult(name = "LoginResult", targetNamespace = "http://ws.isasecdev.com/")
+    @RequestWrapper(localName = "Login", targetNamespace = "http://ws.isasecdev.com/", className = "com.safeval.Login")
+    @ResponseWrapper(localName = "LoginResponse", targetNamespace = "http://ws.isasecdev.com/", className = "com.safeval.LoginResponse")
     public String login(
-        @WebParam(name = "login", targetNamespace = "http://isasecdev.com/")
+        @WebParam(name = "login", targetNamespace = "http://ws.isasecdev.com/")
         String login,
-        @WebParam(name = "password", targetNamespace = "http://isasecdev.com/")
+        @WebParam(name = "password", targetNamespace = "http://ws.isasecdev.com/")
         String password,
-        @WebParam(name = "vers", targetNamespace = "http://isasecdev.com/")
+        @WebParam(name = "vers", targetNamespace = "http://ws.isasecdev.com/")
         String vers,
-        @WebParam(name = "fvers", targetNamespace = "http://isasecdev.com/")
+        @WebParam(name = "fvers", targetNamespace = "http://ws.isasecdev.com/")
         long fvers);
 
 }

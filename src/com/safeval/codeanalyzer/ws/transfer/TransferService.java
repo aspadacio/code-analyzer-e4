@@ -16,14 +16,14 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "TransferService", targetNamespace = "http://isasecdev.com/", wsdlLocation = "https://isasecdev.com/DataTransfer/TransferService.asmx?wsdl")
+@WebServiceClient(name = "TransferService", targetNamespace = "http://ws.isasecdev.com/", wsdlLocation = "https://isasecdev.com/DataTransfer/TransferService.asmx?wsdl")
 public class TransferService
     extends Service
 {
 
     private final static URL TRANSFERSERVICE_WSDL_LOCATION;
     private final static WebServiceException TRANSFERSERVICE_EXCEPTION;
-    private final static QName TRANSFERSERVICE_QNAME = new QName("http://isasecdev.com/", "TransferService");
+    private final static QName TRANSFERSERVICE_QNAME = new QName("http://ws.isasecdev.com/", "TransferService");
 
     static {
         URL url = null;
@@ -68,7 +68,7 @@ public class TransferService
      */
     @WebEndpoint(name = "TransferServiceSoap")
     public TransferServiceSoap getTransferServiceSoap() {
-        return super.getPort(new QName("http://isasecdev.com/", "TransferServiceSoap"), TransferServiceSoap.class);
+        return super.getPort(new QName("http://ws.isasecdev.com/", "TransferServiceSoap"), TransferServiceSoap.class);
     }
 
     /**
@@ -80,7 +80,7 @@ public class TransferService
      */
     @WebEndpoint(name = "TransferServiceSoap")
     public TransferServiceSoap getTransferServiceSoap(WebServiceFeature... features) {
-        return super.getPort(new QName("http://isasecdev.com/", "TransferServiceSoap"), TransferServiceSoap.class, features);
+        return super.getPort(new QName("http://ws.isasecdev.com/", "TransferServiceSoap"), TransferServiceSoap.class, features);
     }
 
     private static URL __getWsdlLocation() {

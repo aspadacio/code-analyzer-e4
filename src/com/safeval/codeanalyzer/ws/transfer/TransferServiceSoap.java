@@ -15,7 +15,7 @@ import javax.xml.ws.ResponseWrapper;
  * Generated source version: 2.2
  * 
  */
-@WebService(name = "TransferServiceSoap", targetNamespace = "http://isasecdev.com/")
+@WebService(name = "TransferServiceSoap", targetNamespace = "http://ws.isasecdev.com/")
 @XmlSeeAlso({
     ObjectFactory.class
 })
@@ -29,14 +29,14 @@ public interface TransferServiceSoap {
      * @return
      *     returns java.lang.String
      */
-    @WebMethod(operationName = "StartUpload", action = "http://isasecdev.com/StartUpload")
-    @WebResult(name = "StartUploadResult", targetNamespace = "http://isasecdev.com/")
-    @RequestWrapper(localName = "StartUpload", targetNamespace = "http://isasecdev.com/", className = "com.isasecdev.StartUpload")
-    @ResponseWrapper(localName = "StartUploadResponse", targetNamespace = "http://isasecdev.com/", className = "com.isasecdev.StartUploadResponse")
+    @WebMethod(operationName = "StartUpload", action = "http://ws.isasecdev.com/StartUpload")
+    @WebResult(name = "StartUploadResult", targetNamespace = "http://ws.isasecdev.com/")
+    @RequestWrapper(localName = "StartUpload", targetNamespace = "http://ws.isasecdev.com/", className = "com.isasecdev.StartUpload")
+    @ResponseWrapper(localName = "StartUploadResponse", targetNamespace = "http://ws.isasecdev.com/", className = "com.isasecdev.StartUploadResponse")
     public String startUpload(
-        @WebParam(name = "token", targetNamespace = "http://isasecdev.com/")
+        @WebParam(name = "token", targetNamespace = "http://ws.isasecdev.com/")
         String token,
-        @WebParam(name = "vers", targetNamespace = "http://isasecdev.com/")
+        @WebParam(name = "vers", targetNamespace = "http://ws.isasecdev.com/")
         String vers);
 
     /**
@@ -49,20 +49,20 @@ public interface TransferServiceSoap {
      * @return
      *     returns java.lang.String
      */
-    @WebMethod(operationName = "Upload", action = "http://isasecdev.com/Upload")
-    @WebResult(name = "UploadResult", targetNamespace = "http://isasecdev.com/")
-    @RequestWrapper(localName = "Upload", targetNamespace = "http://isasecdev.com/", className = "com.isasecdev.Upload")
-    @ResponseWrapper(localName = "UploadResponse", targetNamespace = "http://isasecdev.com/", className = "com.isasecdev.UploadResponse")
+    @WebMethod(operationName = "Upload", action = "http://ws.isasecdev.com/Upload")
+    @WebResult(name = "UploadResult", targetNamespace = "http://ws.isasecdev.com/")
+    @RequestWrapper(localName = "Upload", targetNamespace = "http://ws.isasecdev.com/", className = "com.isasecdev.Upload")
+    @ResponseWrapper(localName = "UploadResponse", targetNamespace = "http://ws.isasecdev.com/", className = "com.isasecdev.UploadResponse")
     public String upload(
-        @WebParam(name = "token", targetNamespace = "http://isasecdev.com/")
+        @WebParam(name = "token", targetNamespace = "http://ws.isasecdev.com/")
         String token,
-        @WebParam(name = "tag", targetNamespace = "http://isasecdev.com/")
+        @WebParam(name = "tag", targetNamespace = "http://ws.isasecdev.com/")
         String tag,
-        @WebParam(name = "pos", targetNamespace = "http://isasecdev.com/")
+        @WebParam(name = "pos", targetNamespace = "http://ws.isasecdev.com/")
         int pos,
-        @WebParam(name = "buffer", targetNamespace = "http://isasecdev.com/")
+        @WebParam(name = "buffer", targetNamespace = "http://ws.isasecdev.com/")
         String buffer,
-        @WebParam(name = "vers", targetNamespace = "http://isasecdev.com/")
+        @WebParam(name = "vers", targetNamespace = "http://ws.isasecdev.com/")
         String vers);
 
     /**
@@ -75,20 +75,20 @@ public interface TransferServiceSoap {
      * @return
      *     returns java.lang.String
      */
-    @WebMethod(operationName = "Download", action = "http://isasecdev.com/Download")
-    @WebResult(name = "DownloadResult", targetNamespace = "http://isasecdev.com/")
-    @RequestWrapper(localName = "Download", targetNamespace = "http://isasecdev.com/", className = "com.isasecdev.Download")
-    @ResponseWrapper(localName = "DownloadResponse", targetNamespace = "http://isasecdev.com/", className = "com.isasecdev.DownloadResponse")
+    @WebMethod(operationName = "Download", action = "http://ws.isasecdev.com/Download")
+    @WebResult(name = "DownloadResult", targetNamespace = "http://ws.isasecdev.com/")
+    @RequestWrapper(localName = "Download", targetNamespace = "http://ws.isasecdev.com/", className = "com.isasecdev.Download")
+    @ResponseWrapper(localName = "DownloadResponse", targetNamespace = "http://ws.isasecdev.com/", className = "com.isasecdev.DownloadResponse")
     public String download(
-        @WebParam(name = "token", targetNamespace = "http://isasecdev.com/")
+        @WebParam(name = "token", targetNamespace = "http://ws.isasecdev.com/")
         String token,
-        @WebParam(name = "tag", targetNamespace = "http://isasecdev.com/")
+        @WebParam(name = "tag", targetNamespace = "http://ws.isasecdev.com/")
         String tag,
-        @WebParam(name = "pos", targetNamespace = "http://isasecdev.com/")
+        @WebParam(name = "pos", targetNamespace = "http://ws.isasecdev.com/")
         int pos,
-        @WebParam(name = "size", targetNamespace = "http://isasecdev.com/")
+        @WebParam(name = "size", targetNamespace = "http://ws.isasecdev.com/")
         int size,
-        @WebParam(name = "vers", targetNamespace = "http://isasecdev.com/")
+        @WebParam(name = "vers", targetNamespace = "http://ws.isasecdev.com/")
         String vers);
 
     /**
@@ -99,16 +99,16 @@ public interface TransferServiceSoap {
      * @return
      *     returns java.lang.String
      */
-    @WebMethod(operationName = "EndDownload", action = "http://isasecdev.com/EndDownload")
-    @WebResult(name = "EndDownloadResult", targetNamespace = "http://isasecdev.com/")
-    @RequestWrapper(localName = "EndDownload", targetNamespace = "http://isasecdev.com/", className = "com.isasecdev.EndDownload")
-    @ResponseWrapper(localName = "EndDownloadResponse", targetNamespace = "http://isasecdev.com/", className = "com.isasecdev.EndDownloadResponse")
+    @WebMethod(operationName = "EndDownload", action = "http://ws.isasecdev.com/EndDownload")
+    @WebResult(name = "EndDownloadResult", targetNamespace = "http://ws.isasecdev.com/")
+    @RequestWrapper(localName = "EndDownload", targetNamespace = "http://ws.isasecdev.com/", className = "com.isasecdev.EndDownload")
+    @ResponseWrapper(localName = "EndDownloadResponse", targetNamespace = "http://ws.isasecdev.com/", className = "com.isasecdev.EndDownloadResponse")
     public String endDownload(
-        @WebParam(name = "token", targetNamespace = "http://isasecdev.com/")
+        @WebParam(name = "token", targetNamespace = "http://ws.isasecdev.com/")
         String token,
-        @WebParam(name = "tag", targetNamespace = "http://isasecdev.com/")
+        @WebParam(name = "tag", targetNamespace = "http://ws.isasecdev.com/")
         String tag,
-        @WebParam(name = "vers", targetNamespace = "http://isasecdev.com/")
+        @WebParam(name = "vers", targetNamespace = "http://ws.isasecdev.com/")
         String vers);
 
 }

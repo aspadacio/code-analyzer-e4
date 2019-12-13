@@ -51,6 +51,7 @@ import com.safeval.codeanalyzer.ws.transfer.TransferServiceSoap;
 public class SelectProjectWP extends WizardPage {
 	
 	private static String WS_URL = "https://isasecdev.com";
+	private static String WS_NAMESPACE = "http://ws.isasecdev.com/";
 	
 	private Composite container;
 	private String[] sharedValues;
@@ -204,6 +205,7 @@ public class SelectProjectWP extends WizardPage {
 				 * 2. Calls Upload Service / Update ProgressBar for each file
 				 */
 				String path = projectSelected;
+				sharedValues[2] = projectSelected; //Set Project Name
 
 				bUploaded = 0;
 				try {
@@ -216,6 +218,9 @@ public class SelectProjectWP extends WizardPage {
 					Stream<Path> paths = Files.walk(Paths.get(path))
 							.filter(Files::isRegularFile)
 							.filter(f -> f.getFileName().toString().endsWith(".java"));
+					
+					//Set Total Bytes length of files
+					sharedValues[3] = String.valueOf(bLength);
 
 					new Thread() {
 						public void run() {
@@ -286,10 +291,10 @@ public class SelectProjectWP extends WizardPage {
 		URL wsdlUrlL;
 		try {
 			wsdlUrlL = new URL(WS_URL + "/DataTransfer/TransferService.asmx?WSDL");
-			QName qnameL = new QName("http://isasecdev.com/", "TransferService");
+			QName qnameL = new QName(WS_NAMESPACE, "TransferService");
 			
 			Service serviceL = Service.create(wsdlUrlL, qnameL);
-			TransferServiceSoap soap = serviceL.getPort(new QName("http://isasecdev.com/", "TransferServiceSoap"),TransferServiceSoap.class);
+			TransferServiceSoap soap = serviceL.getPort(new QName(WS_NAMESPACE, "TransferServiceSoap"),TransferServiceSoap.class);
 			
 			uploadResp = soap.upload(sharedValues[0], sharedValues[1], pos, buffer, "3.0.39");
 		} catch (MalformedURLException e) {
@@ -299,7 +304,7 @@ public class SelectProjectWP extends WizardPage {
 	}
 	
 	/***
-	 * Method that calls SOPA service to return MPT Tag
+	 * Method that calls SOAP service to return MPT Tag
 	 * that is necessary to send Bytes Array to proccess
 	 */
 	private String getMPTTag(String token) {
@@ -308,10 +313,10 @@ public class SelectProjectWP extends WizardPage {
 		if(token != null && token != "" && token.length() > 1) {
 			try {
 				URL wsdlUrlL = new URL(WS_URL + "/DataTransfer/TransferService.asmx?WSDL");
-				QName qnameL = new QName("http://isasecdev.com/", "TransferService");
+				QName qnameL = new QName(WS_NAMESPACE, "TransferService");
 				
 				Service serviceL = Service.create(wsdlUrlL, qnameL);
-				TransferServiceSoap soap = serviceL.getPort(new QName("http://isasecdev.com/", "TransferServiceSoap"),TransferServiceSoap.class);
+				TransferServiceSoap soap = serviceL.getPort(new QName(WS_NAMESPACE, "TransferServiceSoap"),TransferServiceSoap.class);
 				
 				response = soap.startUpload(token, "3.0.39");
 			} catch (MalformedURLException e) {
