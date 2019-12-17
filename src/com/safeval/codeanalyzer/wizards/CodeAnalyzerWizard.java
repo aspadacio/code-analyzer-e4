@@ -14,6 +14,7 @@ public class CodeAnalyzerWizard extends Wizard {
 	 * 1. MPT Tag
 	 * 2. Directory / File / SVN / GIT name (Project Name)
 	 * 3. File(s) total bytes length 
+	 * 4. Current File name
 	 **/
 	String sharedValues[];
 	
@@ -26,7 +27,7 @@ public class CodeAnalyzerWizard extends Wizard {
 		super();
 		this.setWindowTitle("Safeval - Code Analyzer");
 		
-		this.sharedValues = new String[4];
+		this.sharedValues = new String[5];
 		this.authWizardPage = new AuthWP(sharedValues);
 		this.selectProjectWP = new SelectProjectWP(sharedValues);
 		this.analyseWP = new AnalyseWP(sharedValues);

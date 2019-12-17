@@ -12,6 +12,11 @@ import java.util.List;
  *
  */
 public class SafevalUtil {
+	
+	//http://192.168.137.79/isa
+	//https://isasecdev.com
+	public static final String WS_SITE = "http://192.168.137.79/isa";
+	public static final String WS_NAMESPACE = "http://ws.isasecdev.com/";
 
 	/***
 	 * Méthod to divides in 'n' parts an Byte Array 

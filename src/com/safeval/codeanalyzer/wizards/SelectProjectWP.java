@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Base64;
-import java.util.List;
 import java.util.stream.Stream;
 
 import javax.xml.namespace.QName;
@@ -49,9 +48,6 @@ import com.safeval.codeanalyzer.ws.transfer.TransferServiceSoap;
  */
 @SuppressWarnings("restriction")
 public class SelectProjectWP extends WizardPage {
-	
-	private static String WS_URL = "https://isasecdev.com";
-	private static String WS_NAMESPACE = "http://ws.isasecdev.com/";
 	
 	private Composite container;
 	private String[] sharedValues;
@@ -197,7 +193,7 @@ public class SelectProjectWP extends WizardPage {
 				uploadPB.setVisible(true);
 				
 				//Calls StartUpload Service
-				sharedValues[1] = getMPTTag(sharedValues[0]);
+				sharedValues[1] = getMPTTag(sharedValues[0]); //MTAG
 				setMessage("Canal para transações aberto", IMessageProvider.INFORMATION);
             	
 				/**
@@ -205,80 +201,89 @@ public class SelectProjectWP extends WizardPage {
 				 * 2. Calls Upload Service / Update ProgressBar for each file
 				 */
 				String path = projectSelected;
-				sharedValues[2] = projectSelected; //Set Project Name
-
-				bUploaded = 0;
-				try {
-					bLength = Files.walk(Paths.get(path))
-					.map(f -> f.toFile())
-					.filter(f -> f.isFile())
-					.filter(f -> f.getName().toString().endsWith(".java"))
-					.mapToLong(f -> f.length()).sum();
-					
-					Stream<Path> paths = Files.walk(Paths.get(path))
-							.filter(Files::isRegularFile)
-							.filter(f -> f.getFileName().toString().endsWith(".java"));
-					
-					//Set Total Bytes length of files
-					sharedValues[3] = String.valueOf(bLength);
-
-					new Thread() {
-						public void run() {
-							paths.forEach(p -> {
-								try {
-									String response = null;
-									byte[] b = Files.readAllBytes(p);
-									bUploaded = bUploaded + (long) b.length;
-
-									if (b.length > 4000) {
-										List<byte[]> listPartedFile = SafevalUtil.getPartedFile(b, 4000);
-										int pos = 0;
-										for (byte[] part : listPartedFile) {
-											response = uploadService(Base64.getEncoder().encodeToString(part), pos);
-											pos++;
-										}
-									} else {
-										response = uploadService(Base64.getEncoder().encodeToString(b), 0);
-									}
-
-									if (response.equalsIgnoreCase("ok")) {
-										int perc = (int) (bUploaded * 100.0 / bLength + 0.5);
-										container.getDisplay().asyncExec(new Runnable() {
-											@Override
-											public void run() {
-												//System.out.println("setanto perc=" + perc);
-												uploadPB.setSelection(perc);
-												if( perc > 2 ) {
-													setMessage("Subindo arquivos para o servidor... " + perc + "%", IMessageProvider.INFORMATION);
-												}
-											}
-										});
-									}else {
-										System.out.println("Deu erro no momento de subir o arquivo :: " + p.getFileName());
-									}
-								} catch (IOException e1) {
-									e1.printStackTrace();
-								}
-							});
-							
-							container.getDisplay().syncExec(new Runnable() {
-								@Override
-								public void run() {
-									startUploadBtn.setEnabled(false);
-									setPageComplete(true);
-									setMessage("Upload dos arquivos finalizado", IMessageProvider.INFORMATION);
-									showFinishUpload();
-								}
-							});
-						}
-					}.start();					
-				} catch (IOException e2) {
-					e2.printStackTrace();
-				}
+				
+				//Set Project Name
+				String[] pathNames = path.split("/");
+				sharedValues[2] = pathNames[pathNames.length-1];
+				
+				uploadMultPart(path);
 			}
 		});
 		this.setControl(container);
 	};
+	
+	private void uploadMultPart(String path) {
+		bUploaded = 0;
+		try {
+			bLength = Files.walk(Paths.get(path))
+			.map(f -> f.toFile())
+			.filter(f -> f.isFile())
+			.filter(f -> f.getName().toString().endsWith(".java"))
+			.mapToLong(f -> f.length()).sum();
+			
+			Stream<Path> paths = Files.walk(Paths.get(path))
+					.filter(Files::isRegularFile)
+					.filter(f -> f.getFileName().toString().endsWith(".java"));
+			
+			//Set Total Bytes length of files
+			sharedValues[3] = String.valueOf(bLength);
+
+			new Thread() {
+				public void run() {
+					paths.forEach(p -> {
+						try {
+							String response = null;
+							byte[] b = Files.readAllBytes(p);
+							bUploaded = bUploaded + (long) b.length;
+
+//							if (b.length > 4000) {
+//								List<byte[]> listPartedFile = SafevalUtil.getPartedFile(b, 4000);
+//								int pos = 0;
+//								for (byte[] part : listPartedFile) {
+//									response = uploadService(Base64.getEncoder().encodeToString(part), pos);
+//									//pos++; //No exempolo do Ricardo, sempre manda ZERO
+//								}
+//							} else {
+//								response = uploadService(Base64.getEncoder().encodeToString(b), 0);
+//							}
+							
+							response = uploadService(Base64.getEncoder().encodeToString(b), 0);
+
+							if (response.equalsIgnoreCase("ok")) {
+								int perc = (int) (bUploaded * 100.0 / bLength + 0.5);
+								container.getDisplay().asyncExec(new Runnable() {
+									@Override
+									public void run() {
+										//System.out.println("setanto perc=" + perc);
+										uploadPB.setSelection(perc);
+										if( perc > 2 ) {
+											setMessage("Subindo arquivos para o servidor... " + perc + "%", IMessageProvider.INFORMATION);
+										}
+									}
+								});
+							}else {
+								System.out.println("Deu erro no momento de subir o arquivo :: " + p.getFileName());
+							}
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+					});
+					
+					container.getDisplay().syncExec(new Runnable() {
+						@Override
+						public void run() {
+							startUploadBtn.setEnabled(false);
+							setPageComplete(true);
+							setMessage("Upload dos arquivos finalizado", IMessageProvider.INFORMATION);
+							showFinishUpload();
+						}
+					});
+				}
+			}.start();					
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
+	}
 
 	/**
 	 * Method amides to Upload the classes / files to further analysis
@@ -290,11 +295,11 @@ public class SelectProjectWP extends WizardPage {
 		
 		URL wsdlUrlL;
 		try {
-			wsdlUrlL = new URL(WS_URL + "/DataTransfer/TransferService.asmx?WSDL");
-			QName qnameL = new QName(WS_NAMESPACE, "TransferService");
+			wsdlUrlL = new URL(SafevalUtil.WS_SITE + "/DataTransfer/TransferService.asmx?WSDL");
+			QName qnameL = new QName(SafevalUtil.WS_NAMESPACE, "TransferService");
 			
 			Service serviceL = Service.create(wsdlUrlL, qnameL);
-			TransferServiceSoap soap = serviceL.getPort(new QName(WS_NAMESPACE, "TransferServiceSoap"),TransferServiceSoap.class);
+			TransferServiceSoap soap = serviceL.getPort(new QName(SafevalUtil.WS_NAMESPACE, "TransferServiceSoap"),TransferServiceSoap.class);
 			
 			uploadResp = soap.upload(sharedValues[0], sharedValues[1], pos, buffer, "3.0.39");
 		} catch (MalformedURLException e) {
@@ -312,11 +317,11 @@ public class SelectProjectWP extends WizardPage {
 		
 		if(token != null && token != "" && token.length() > 1) {
 			try {
-				URL wsdlUrlL = new URL(WS_URL + "/DataTransfer/TransferService.asmx?WSDL");
-				QName qnameL = new QName(WS_NAMESPACE, "TransferService");
+				URL wsdlUrlL = new URL(SafevalUtil.WS_SITE + "/DataTransfer/TransferService.asmx?WSDL");
+				QName qnameL = new QName(SafevalUtil.WS_NAMESPACE, "TransferService");
 				
 				Service serviceL = Service.create(wsdlUrlL, qnameL);
-				TransferServiceSoap soap = serviceL.getPort(new QName(WS_NAMESPACE, "TransferServiceSoap"),TransferServiceSoap.class);
+				TransferServiceSoap soap = serviceL.getPort(new QName(SafevalUtil.WS_NAMESPACE, "TransferServiceSoap"),TransferServiceSoap.class);
 				
 				response = soap.startUpload(token, "3.0.39");
 			} catch (MalformedURLException e) {

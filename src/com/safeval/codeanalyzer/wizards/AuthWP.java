@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Text;
 
 import com.safeval.codeanalyzer.persist.BufferPersist;
 import com.safeval.codeanalyzer.persist.Persist;
+import com.safeval.codeanalyzer.util.SafevalUtil;
 import com.safeval.codeanalyzer.ws.login.LoginServiceSoap;
 
 
@@ -31,8 +32,6 @@ import com.safeval.codeanalyzer.ws.login.LoginServiceSoap;
  *
  */
 public class AuthWP extends WizardPage {
-
-	private static String WS_URL = "https://isasecdev.com";
 	
 	private Composite container;
 	private String[] sharedValues;
@@ -102,11 +101,11 @@ public class AuthWP extends WizardPage {
 				
 				//call login SOAP services and do authentication
 				try {
-					URL wsdlUrlL = new URL(WS_URL + "/Login/LoginService.asmx?WSDL");
-					QName qnameL = new QName("http://ws.isasecdev.com/", "LoginService");
+					URL wsdlUrlL = new URL(SafevalUtil.WS_SITE + "/Login/LoginService.asmx?WSDL");
+					QName qnameL = new QName(SafevalUtil.WS_NAMESPACE, "LoginService");
 					
 			        Service serviceL = Service.create(wsdlUrlL, qnameL);
-			        LoginServiceSoap soapL = serviceL.getPort(new QName("http://ws.isasecdev.com/", "LoginServiceSoap"),LoginServiceSoap.class);
+			        LoginServiceSoap soapL = serviceL.getPort(new QName(SafevalUtil.WS_NAMESPACE, "LoginServiceSoap"),LoginServiceSoap.class);
 
 			        String login = userNameText.getText();
 			        String password = passwordText.getText();

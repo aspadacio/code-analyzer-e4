@@ -651,20 +651,20 @@ public interface AnalysisServiceSoap {
      * @return
      *     returns java.lang.String
      */
-    @WebMethod(operationName = "GetJobData", action = "http://ws.isasecdev.com/GetJobData")
-    @WebResult(name = "GetJobDataResult", targetNamespace = "http://ws.isasecdev.com/")
-    @RequestWrapper(localName = "GetJobData", targetNamespace = "http://ws.isasecdev.com/", className = "com.isasecdev.ws.GetJobData")
-    @ResponseWrapper(localName = "GetJobDataResponse", targetNamespace = "http://ws.isasecdev.com/", className = "com.isasecdev.ws.GetJobDataResponse")
-    public String getJobData(
-        @WebParam(name = "token", targetNamespace = "http://ws.isasecdev.com/")
-        String token,
-        @WebParam(name = "jobId", targetNamespace = "http://ws.isasecdev.com/")
-        String jobId,
-        @WebParam(name = "lang", targetNamespace = "http://ws.isasecdev.com/")
-        int lang,
-        @WebParam(name = "vers", targetNamespace = "http://ws.isasecdev.com/")
-        String vers,
-        @WebParam(name = "fvers", targetNamespace = "http://ws.isasecdev.com/")
-        long fvers);
+//    @WebMethod(operationName = "GetJobData", action = "http://ws.isasecdev.com/GetJobData")
+//    @WebResult(name = "GetJobDataResult", targetNamespace = "http://ws.isasecdev.com/")
+//    @RequestWrapper(localName = "GetJobData", targetNamespace = "http://ws.isasecdev.com/", className = "com.isasecdev.ws.GetJobData")
+//    @ResponseWrapper(localName = "GetJobDataResponse", targetNamespace = "http://ws.isasecdev.com/", className = "com.isasecdev.ws.GetJobDataResponse")
+//    public String getJobData(
+//        @WebParam(name = "token", targetNamespace = "http://ws.isasecdev.com/")
+//        String token,
+//        @WebParam(name = "jobId", targetNamespace = "http://ws.isasecdev.com/")
+//        String jobId,
+//        @WebParam(name = "lang", targetNamespace = "http://ws.isasecdev.com/")
+//        int lang,
+//        @WebParam(name = "vers", targetNamespace = "http://ws.isasecdev.com/")
+//        String vers,
+//        @WebParam(name = "fvers", targetNamespace = "http://ws.isasecdev.com/")
+//        long fvers);
 
 }
